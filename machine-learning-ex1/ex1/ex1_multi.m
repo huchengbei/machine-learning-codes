@@ -105,7 +105,9 @@ fprintf('\n');
 % Recall that the first column of X is all-ones. Thus, it does
 % not need to be normalized.
 price = 0; % You should change this
-
+ESX = [1650, 3];
+norm_X = (ESX - mu) ./ sigma;
+price = [1, norm_X] * theta;
 
 % ============================================================
 
@@ -114,6 +116,24 @@ fprintf(['Predicted price of a 1650 sq-ft, 3 br house ' ...
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
+
+%% ============= Part 2.2: Select learning rate =============
+[theta, J1] = gradientDescentMulti(X, y, zeros(3, 1), 0.3, num_iters);
+[theta, J2] = gradientDescentMulti(X, y, zeros(3, 1), 0.1, num_iters);
+[theta, J3] = gradientDescentMulti(X, y, zeros(3, 1), 0.03, num_iters);
+[theta, J4] = gradientDescentMulti(X, y, zeros(3, 1), 0.01, num_iters);
+
+% Plot the convergence graph
+figure;
+plot(1:50, J1(1:50), '-b', 'LineWidth', 2);
+xlabel('Number of iterations');
+ylabel('Cost J');
+hold on;
+plot(1:50, J2(1:50), '-r', 'LineWidth', 2);
+plot(1:50, J3(1:50), '-k', 'LineWidth', 2);
+plot(1:50, J4(1:50), '-g', 'LineWidth', 2);
+legend('J1:0.3', 'J2:0.1', 'J3:0.03', 'J4:0.01');
+hold off;
 
 %% ================ Part 3: Normal Equations ================
 
@@ -150,7 +170,8 @@ fprintf('\n');
 % Estimate the price of a 1650 sq-ft, 3 br house
 % ====================== YOUR CODE HERE ======================
 price = 0; % You should change this
-
+ESX = [1, 1650, 3];
+price = ESX * theta;
 
 % ============================================================
 
